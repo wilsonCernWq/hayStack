@@ -103,6 +103,11 @@ Notes:
 
     ./hsViewerQT spheres:///cluster/priya/105000.p4:format=xyzi:radius=1  --camera 33.7268 519.912 545.901 499.61 166.807 -72.1014 0 1 0 -fovy 60
 
+## Spheres (XYZ + RGB points)
+
+![](jpg/geoexample.png)
+
+    DISPLAY=:2 ./hsViewerQT spheres://./points.p6:format=xyzrgb:radius=1 
 
 ## (Offline-)data parallel on structured data
 

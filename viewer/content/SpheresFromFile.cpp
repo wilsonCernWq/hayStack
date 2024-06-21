@@ -76,8 +76,8 @@ namespace hs {
     FILE *file = fopen(data.where.c_str(),"rb");
     assert(file);
     size_t sizeOfSphere
-      = (data.get("format")=="xyzf")
-      ? sizeof(vec4f)
+      = (data.get("format")=="xyzf")   ? sizeof(vec4f)
+      : (data.get("format")=="xyzrgb") ? sizeof(vec3d)+sizeof(vec3d)
       : sizeof(vec3f);
 
     int64_t numSpheresInFile = fileSize / sizeOfSphere;
@@ -115,6 +115,17 @@ namespace hs {
           spheres->colors.push_back(color);
         // spheres->colors.push_back(vec3f(fmodf(v.w,1.f)));
         }
+      }
+    } else if (format =="xyzrgb") {
+      struct
+      {
+        vec3d pos;
+        vec3d color;
+      } v;
+      for (size_t i=0;i<my_count;i++) {
+        int rc = fread((char*)&v,sizeof(v),1,file);
+        spheres->origins.push_back(vec3f(v.pos.x,v.pos.y,v.pos.z));
+        spheres->colors.push_back(vec3f(v.color.x,v.color.y,v.color.z));
       }
     } else if (format =="xyzi") {
       struct
